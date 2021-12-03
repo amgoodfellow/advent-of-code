@@ -11,20 +11,20 @@ fn lines_from_file(filename: impl AsRef<Path>) -> std::io::Result<Vec<String>> {
 
 fn main() {
     let lines = lines_from_file("input.txt").expect("Couldn't read from file");
-    println!("{}", part_one(lines.as_slice()));
-    println!("{}", part_two(lines.as_slice()));
+    println!("{:?}", part_one(lines.as_slice()));
+    println!("{:?}", part_two(lines.as_slice()));
 }
 
-fn part_one(lines: &[String]) -> usize {
-    let re = Regex::new(r"(\w+) (\d+)").unwrap();
+fn part_one(lines: &[String]) -> Option<usize> {
+    let re = Regex::new(r"(\w+) (\d+)").expect("Invalid regex");
 
     let mut vertical = 0;
     let mut depth = 0;
 
     for line in lines {
-        let capture = re.captures(&line).unwrap();
+        let capture = re.captures(&line)?;
         let direction = &capture[1];
-        let amount = capture[2].parse::<usize>().unwrap();
+        let amount = capture[2].parse::<usize>()?;
 
         match direction {
             "forward" => vertical += amount,
@@ -34,20 +34,20 @@ fn part_one(lines: &[String]) -> usize {
         }
     }
 
-    vertical * depth
+    Some(vertical * depth)
 }
 
-fn part_two(lines: &[String]) -> usize {
-    let re = Regex::new(r"(\w+) (\d+)").unwrap();
+fn part_two(lines: &[String]) -> Option<usize> {
+    let re = Regex::new(r"(\w+) (\d+)").expect("Invalid regex");
 
     let mut vertical = 0;
     let mut depth = 0;
     let mut aim = 0;
 
     for line in lines {
-        let capture = re.captures(&line).unwrap();
+        let capture = re.captures(&line)?;
         let direction = &capture[1];
-        let amount = capture[2].parse::<usize>().unwrap();
+        let amount = capture[2].parse::<usize>()?;
 
         match direction {
             "forward" => {
@@ -60,17 +60,17 @@ fn part_two(lines: &[String]) -> usize {
         }
     }
 
-    vertical * depth
+    Some(vertical * depth)
 }
 
 #[test]
 fn part_one_test() {
     let lines = lines_from_file("test-input.txt").expect("Couldn't read from file");
-    assert_eq!(150, part_one(lines.as_slice()));
+    assert_eq!(Some(150), part_one(lines.as_slice()));
 }
 
 #[test]
 fn part_two_test() {
     let lines = lines_from_file("test-input.txt").expect("Couldn't read from file");
-    assert_eq!(900, part_two(lines.as_slice()));
+    assert_eq!(Some(900), part_two(lines.as_slice()));
 }
