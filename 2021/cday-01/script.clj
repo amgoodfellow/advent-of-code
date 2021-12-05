@@ -2,16 +2,19 @@
   (:require [clojure.string :as str]))
 
 ;; part one answer
-(->> (slurp "test-input.txt")
+(->> (slurp "input.txt")
      (str/split-lines)
-     (map Integer/parseInt))
-
-
-
+     (map #(Integer/parseInt %))
+     (partition 2 1)
+     (filter #(< (first %) (last %)))
+     (count))
 
 ;; part two answer
 (->> (slurp "input.txt")
      (str/split-lines)
-     (map line->map)
-     (filter #(has-valid-password? %))
+     (map #(Integer/parseInt %))
+     (partition 3 1)
+     (map #(reduce + %))
+     (partition 2 1)
+     (filter #(< (first %) (last %)))
      (count))
