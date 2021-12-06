@@ -7,29 +7,9 @@
 
 At the root of this project directory, there are separate folders for each year:
 
-#+begin_src shell :exports results
-exa -D
-#+end_src
-
-#+RESULTS:
-| 2020 |
-| 2021 |
-
 Inside each year, there are folders for each day following the format ~day-xx~
-
-#+begin_src shell :exports results
-exa -D 2021
-#+end_src
-
-#+RESULTS:
-| cday-01 |
-| day-01  |
-| day-02  |
-| day-03  |
-| day-04  |
-| day-05  |
 
 Inside of each day will be a folder for the language that that day's puzzle was completed in, as well as a folder for puzzle inputs. Often the language will be Rust, but there might be different languages for each day. I think AoC is fun for seeing how different languages nudge you in different directions. Each Rust solution will be a full cargo project, just because I think it's more convenient than breaking things into workspaces.
 
 * Current Day
-#+INCLUDE: "./2021/day-05/README.org::Day 5: Hydrothermal Venture"
+#+INCLUDE: "./2021/day-06/README.org::Day 6: Lanternfish"
