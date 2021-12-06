@@ -1,7 +1,5 @@
-#+TITLE: Day 5
-#+Subtitle: Hydrothermal Venture
-
-* Rust
+* Day 5: Hydrothermal Venture
+** Rust
 Today I decided to mess around a long time on parsing the file in a slightly more proper way. Instead of doing all the parsing logic in some sort of ~read_lines~ function, I actually implemented the ~FromStr~ trait on a ~Line~ object so that I could use the ~parse~ method.
 
 #+begin_src rust
@@ -36,7 +34,7 @@ impl FromStr for Line {
 It actually wasn't as bad as I thought. I'll probably try to keep doing it this way if I end up parsing the input file to some custom struct
 
 Oh, also a note - the little x1/x2 y1/y2 swap was a quick hack so I wouldn't have to worry about incorrect bounds on ranges for part 1. In part 2 I ended up having to deal with it anyway. A good idea if I have extra time would be to move this logic from here into ~part_one~.
-** Part 1
+*** Part 1
 #+begin_src rust
 fn part_one(lines: &[Line]) -> usize {
     let mut seafloor = vec![vec![0; 1000]; 1000];
@@ -58,7 +56,7 @@ fn part_one(lines: &[Line]) -> usize {
     })
 }
 #+end_src
-** Part 2
+*** Part 2
 #+begin_src rust
 fn part_two(lines: &[Line]) -> usize {
     let mut seafloor = vec![vec![0; 1000]; 1000];

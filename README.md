@@ -1,6 +1,5 @@
 ---
-subtitle: Hydrothermal Venture
-title: Advent of Code Day 5
+title: Advent of Code
 ---
 
 # Layout
@@ -35,7 +34,9 @@ into workspaces.
 
 # Current Day
 
-## Rust
+## Day 5: Hydrothermal Venture
+
+### Rust
 
 Today I decided to mess around a long time on parsing the file in a
 slightly more proper way. Instead of doing all the parsing logic in some
@@ -79,65 +80,65 @@ wouldn't have to worry about incorrect bounds on ranges for part 1. In
 part 2 I ended up having to deal with it anyway. A good idea if I have
 extra time would be to move this logic from here into `part_one`.
 
-### Part 1
+1.  Part 1
 
-``` rust
-fn part_one(lines: &[Line]) -> usize {
-    let mut seafloor = vec![vec![0; 1000]; 1000];
+    ``` rust
+    fn part_one(lines: &[Line]) -> usize {
+        let mut seafloor = vec![vec![0; 1000]; 1000];
 
-    for line in lines {
-        if line.x1 == line.x2 {
-            for row_index in line.y1..=line.y2 {
-                seafloor[row_index][line.x1] += 1;
-            }
-        } else if line.y1 == line.y2 {
-            for column_index in line.x1..=line.x2 {
-                seafloor[line.y1][column_index] += 1;
-            }
-        }
-    }
-
-    seafloor.iter().fold(0, |acc, element| {
-        acc + element.iter().filter(|x| x > &&1).count()
-    })
-}
-```
-
-### Part 2
-
-``` rust
-fn part_two(lines: &[Line]) -> usize {
-    let mut seafloor = vec![vec![0; 1000]; 1000];
-
-    for line in lines {
-        if line.x1 == line.x2 {
-            for row_index in line.y1..=line.y2 {
-                seafloor[row_index][line.x1] += 1;
-            }
-        } else if line.y1 == line.y2 {
-            for column_index in line.x1..=line.x2 {
-                seafloor[line.y1][column_index] += 1;
-            }
-        } else {
-            let x_positive = line.x1 < line.x2;
-            let y_positive = line.y1 < line.y2;
-
-            for step in 0..=(line.x1 as i32 - line.x2 as i32).abs() as usize {
-                seafloor[if y_positive {
-                    line.y1 + step
-                } else {
-                    line.y1 - step
-                }][if x_positive {
-                    line.x1 + step
-                } else {
-                    line.x1 - step
-                }] += 1;
+        for line in lines {
+            if line.x1 == line.x2 {
+                for row_index in line.y1..=line.y2 {
+                    seafloor[row_index][line.x1] += 1;
+                }
+            } else if line.y1 == line.y2 {
+                for column_index in line.x1..=line.x2 {
+                    seafloor[line.y1][column_index] += 1;
+                }
             }
         }
-    }
 
-    seafloor.iter().fold(0, |acc, element| {
-        acc + element.iter().filter(|x| x > &&1).count()
-    })
-}
-```
+        seafloor.iter().fold(0, |acc, element| {
+            acc + element.iter().filter(|x| x > &&1).count()
+        })
+    }
+    ```
+
+2.  Part 2
+
+    ``` rust
+    fn part_two(lines: &[Line]) -> usize {
+        let mut seafloor = vec![vec![0; 1000]; 1000];
+
+        for line in lines {
+            if line.x1 == line.x2 {
+                for row_index in line.y1..=line.y2 {
+                    seafloor[row_index][line.x1] += 1;
+                }
+            } else if line.y1 == line.y2 {
+                for column_index in line.x1..=line.x2 {
+                    seafloor[line.y1][column_index] += 1;
+                }
+            } else {
+                let x_positive = line.x1 < line.x2;
+                let y_positive = line.y1 < line.y2;
+
+                for step in 0..=(line.x1 as i32 - line.x2 as i32).abs() as usize {
+                    seafloor[if y_positive {
+                        line.y1 + step
+                    } else {
+                        line.y1 - step
+                    }][if x_positive {
+                        line.x1 + step
+                    } else {
+                        line.x1 - step
+                    }] += 1;
+                }
+            }
+        }
+
+        seafloor.iter().fold(0, |acc, element| {
+            acc + element.iter().filter(|x| x > &&1).count()
+        })
+    }
+    ```

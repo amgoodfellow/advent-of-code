@@ -32,4 +32,4 @@ exa -D 2021
 Inside of each day will be a folder for the language that that day's puzzle was completed in, as well as a folder for puzzle inputs. Often the language will be Rust, but there might be different languages for each day. I think AoC is fun for seeing how different languages nudge you in different directions. Each Rust solution will be a full cargo project, just because I think it's more convenient than breaking things into workspaces.
 
 * Current Day
-#+INCLUDE: "./2021/day-05/README.org"
+#+INCLUDE: "./2021/day-05/README.org::Day 5: Hydrothermal Venture"
