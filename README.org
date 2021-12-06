@@ -1,5 +1,6 @@
 #+Title: Advent of Code
 #+Subtitle 2021
+#+options: author:nil date:nil
 
 
 * Layout
