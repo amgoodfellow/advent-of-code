@@ -17,8 +17,8 @@ fn lines_from_file(filename: impl AsRef<Path>) -> std::io::Result<Vec<Vec<usize>
 }
 
 fn main() {
-    let lines = lines_from_file("input.txt").expect("Couldn't read from file");
-    let lines2 = lines_from_file("input.txt").expect("Couldn't read from file");
+    let lines = lines_from_file("../input/input.txt").expect("Couldn't read from file");
+    let lines2 = lines_from_file("../input/input.txt").expect("Couldn't read from file");
     println!("{:?}", part_one(&lines));
     println!("{:?}", part_two(lines, lines2, 0));
 }
@@ -110,13 +110,13 @@ fn part_two(oxygen: Vec<Vec<usize>>, scrubber: Vec<Vec<usize>>, column: usize) -
 
 #[test]
 fn part_one_test() {
-    let lines = lines_from_file("test-input.txt").expect("Couldn't read from file");
+    let lines = lines_from_file("../input/test-input.txt").expect("Couldn't read from file");
     assert_eq!(Some(198), part_one(&lines));
 }
 
 #[test]
 fn part_two_test() {
-    let lines = lines_from_file("test-input.txt").expect("Couldn't read from file");
-    let lines2 = lines_from_file("test-input.txt").expect("Couldn't read from file");
+    let lines = lines_from_file("../input/test-input.txt").expect("Couldn't read from file");
+    let lines2 = lines_from_file("../input/test-input.txt").expect("Couldn't read from file");
     assert_eq!((230), part_two(lines, lines2, 0));
 }
