@@ -4,7 +4,7 @@ use std::io::BufRead;
 use std::io::BufReader;
 
 fn main() {
-    let list: Vec<usize> = BufReader::new(File::open("./input.txt").unwrap())
+    let list: Vec<usize> = BufReader::new(File::open("../input/input.txt").unwrap())
         .lines()
         .map(|x| x.unwrap().parse::<usize>().unwrap())
         .collect();
@@ -43,7 +43,7 @@ fn part_two(list: &[usize]) -> usize {
 
 #[test]
 fn part_one_test() {
-    let list: Vec<usize> = BufReader::new(File::open("./test-input.txt").unwrap())
+    let list: Vec<usize> = BufReader::new(File::open("../input/test-input.txt").unwrap())
         .lines()
         .map(|x| x.unwrap().parse::<usize>().unwrap())
         .collect();
@@ -53,7 +53,7 @@ fn part_one_test() {
 
 #[test]
 fn part_two_test() {
-    let list: Vec<usize> = BufReader::new(File::open("./test-input.txt").unwrap())
+    let list: Vec<usize> = BufReader::new(File::open("../input/test-input.txt").unwrap())
         .lines()
         .map(|x| x.unwrap().parse::<usize>().unwrap())
         .collect();
