@@ -70,11 +70,10 @@ impl FromStr for Line {
                 }
             }
             return Ok(Line::with(x1, x2, y1, y2));
-        } else {
-            Err(ParserError {
-                message: "Bad line".to_string(),
-            })
         }
+        Err(ParserError {
+            message: "Bad line".to_string(),
+        })
     }
 }
 
@@ -141,17 +140,17 @@ fn part_two(lines: &[Line]) -> usize {
 }
 
 fn main() {
-    println!("{:?}", part_one(lines_from_file("input.txt").as_slice()));
-    println!("{:?}", part_two(lines_from_file("input.txt").as_slice()));
+    println!("{:?}", part_one(lines_from_file("../input/input.txt").as_slice()));
+    println!("{:?}", part_two(lines_from_file("../input/input.txt").as_slice()));
     // got 21384 but was too high
 }
 
 #[test]
 fn part_one_test() {
-    assert_eq!(5, part_one(lines_from_file("test-input.txt").as_slice()));
+    assert_eq!(5, part_one(lines_from_file("../input/test-input.txt").as_slice()));
 }
 
 #[test]
 fn part_two_test() {
-    assert_eq!(12, part_two(lines_from_file("test-input.txt").as_slice()));
+    assert_eq!(12, part_two(lines_from_file("../input/test-input.txt").as_slice()));
 }
