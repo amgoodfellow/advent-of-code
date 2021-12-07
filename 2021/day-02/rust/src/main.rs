@@ -10,7 +10,7 @@ fn lines_from_file(filename: impl AsRef<Path>) -> std::io::Result<Vec<String>> {
 }
 
 fn main() {
-    let lines = lines_from_file("input.txt").expect("Couldn't read from file");
+    let lines = lines_from_file("../input/input.txt").expect("Couldn't read from file");
     println!("{:?}", part_one(lines.as_slice()));
     println!("{:?}", part_two(lines.as_slice()));
 }
@@ -24,7 +24,7 @@ fn part_one(lines: &[String]) -> Option<usize> {
     for line in lines {
         let capture = re.captures(&line)?;
         let direction = &capture[1];
-        let amount = capture[2].parse::<usize>()?;
+        let amount = capture[2].parse::<usize>().unwrap();
 
         match direction {
             "forward" => vertical += amount,
@@ -47,7 +47,7 @@ fn part_two(lines: &[String]) -> Option<usize> {
     for line in lines {
         let capture = re.captures(&line)?;
         let direction = &capture[1];
-        let amount = capture[2].parse::<usize>()?;
+        let amount = capture[2].parse::<usize>().unwrap();
 
         match direction {
             "forward" => {
@@ -65,12 +65,12 @@ fn part_two(lines: &[String]) -> Option<usize> {
 
 #[test]
 fn part_one_test() {
-    let lines = lines_from_file("test-input.txt").expect("Couldn't read from file");
+    let lines = lines_from_file("../input/test-input.txt").expect("Couldn't read from file");
     assert_eq!(Some(150), part_one(lines.as_slice()));
 }
 
 #[test]
 fn part_two_test() {
-    let lines = lines_from_file("test-input.txt").expect("Couldn't read from file");
+    let lines = lines_from_file("../input/test-input.txt").expect("Couldn't read from file");
     assert_eq!(Some(900), part_two(lines.as_slice()));
 }
