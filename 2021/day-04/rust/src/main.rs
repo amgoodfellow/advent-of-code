@@ -158,20 +158,20 @@ fn part_two(draw_numbers: Vec<usize>, mut boards: Vec<Board>) -> Option<usize> {
 }
 
 fn main() {
-    let (numbers, boards) = lines_from_file("input.txt");
+    let (numbers, boards) = lines_from_file("../input/input.txt");
     println!("{:?}", part_one(numbers, boards));
-    let (numbers, boards) = lines_from_file("input.txt");
+    let (numbers, boards) = lines_from_file("../input/input.txt");
     println!("{:?}", part_two(numbers, boards));
 }
 
 #[test]
 fn part_one_test() {
-    let (draw_numbers, boards) = lines_from_file("test-input.txt");
+    let (draw_numbers, boards) = lines_from_file("../input/test-input.txt");
     assert_eq!(Some(4512), part_one(draw_numbers, boards));
 }
 
 #[test]
 fn part_two_test() {
-    let (draw_numbers, boards) = lines_from_file("test-input.txt");
+    let (draw_numbers, boards) = lines_from_file("../input/test-input.txt");
     assert_eq!(Some(1924), part_two(draw_numbers, boards));
 }
