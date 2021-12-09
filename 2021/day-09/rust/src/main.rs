@@ -1,37 +1,26 @@
----
-title: Advent of Code
----
+#![allow(dead_code)]
+use regex::{Match, Regex};
+use std::{
+    collections::{HashMap, HashSet},
+    path::Path,
+    str::FromStr,
+};
 
-# Layout
+fn part_one<A>(filename: A) -> usize
+where
+    A: AsRef<Path>,
+{
+    let map = std::fs::read_to_string(filename)
+        .unwrap()
+        .lines()
+        .map(|line| {
+            println!("{:?}", line);
+            line.split_terminator("")
+                .filter_map(|digit| digit.parse::<usize>().ok())
+                .collect()
+        })
+        .collect::<Vec<Vec<usize>>>();
 
-At the root of this project directory, there are separate folders for
-each year:
-
-Inside each year, there are folders for each day following the format
-`day-xx`
-
-Inside of each day will be a folder for the language that that day's
-puzzle was completed in, as well as a folder for puzzle inputs. Often
-the language will be Rust, but there might be different languages for
-each day. I think AoC is fun for seeing how different languages nudge
-you in different directions. Each Rust solution will be a full cargo
-project, just because I think it's more convenient than breaking things
-into workspaces.
-
-# Current Day
-
-## Day 9: Smoke Basin
-
-Part 1
-
-Per-usual, my initial thought is to do this the most straightforward way
-I can.
-
-Iterate through the 2d array and for each element check to see if all
-adjacent elements are bigger
-
-``` rust
-fn part_one(map: Vec<Vec<usize>>) -> usize {
     let mut low_points = vec![];
 
     for row in 0..map.len() {
@@ -63,9 +52,20 @@ fn part_one(map: Vec<Vec<usize>>) -> usize {
 
     low_points.iter().sum()
 }
-```
 
-Part 2
+fn main() {
+    println!("Part one: {:?}", part_one("../input/input.txt"));
+}
 
-``` rust
-```
+#[test]
+fn part_one_test() {
+    assert_eq!(15, part_one("../input/test-input.txt"));
+}
+
+//#[test]
+//fn part_two_test() {
+//    assert_eq!(
+//        168,
+//        part_one("../input/test-input.txt")
+//    );
+//}
