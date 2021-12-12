@@ -1,30 +1,50 @@
----
-title: Advent of Code
----
+#![allow(dead_code)]
 
-# Layout
+use std::{
+    collections::{HashMap, VecDeque},
+    path::Path,
+};
 
-At the root of this project directory, there are separate folders for
-each year:
+fn lines_from_file(filename: impl AsRef<Path>) -> Vec<Vec<char>> {
+    std::fs::read_to_string(filename)
+        .unwrap()
+        .lines()
+        .map(|c| c.chars().collect())
+        .collect()
+}
 
-Inside each year, there are folders for each day following the format
-`day-xx`
+fn is_closing(symbol: char) -> bool {
+    symbol == '>' || symbol == ']' || symbol == '}' || symbol == ')'
+}
 
-Inside of each day will be a folder for the language that that day's
-puzzle was completed in, as well as a folder for puzzle inputs. Often
-the language will be Rust, but there might be different languages for
-each day. I think AoC is fun for seeing how different languages nudge
-you in different directions. Each Rust solution will be a full cargo
-project, just because I think it's more convenient than breaking things
-into workspaces.
+fn are_matching(open: char, close: char) -> bool {
+    (open == '<' && close == '>')
+        || (open == '[' && close == ']')
+        || (open == '(' && close == ')')
+        || (open == '{' && close == '}')
+}
 
-# Latest Solved Problem:
+fn error_value(c: char) -> usize {
+    match c {
+        '<' | '>' => 25137,
+        '{' | '}' => 1197,
+        '[' | ']' => 57,
+        '(' | ')' => 3,
+        _ => panic!("ALIEN CODE DETECTED"),
+    }
+}
 
-## Day 10: Syntax Scoring
+fn missing_value(c: char) -> usize {
+    match c {
+        '<' | '>' => 4,
+        '{' | '}' => 3,
+        '[' | ']' => 2,
+        '(' | ')' => 1,
+        _ => panic!("ALIEN CODE DETECTED"),
+    }
+}
 
-Part 1
-
-``` rust
+// just finding balanced parens
 fn part_one(input: Vec<Vec<char>>) -> usize {
     let mut bad_symbols = vec![];
     for line in input {
@@ -50,11 +70,7 @@ fn part_one(input: Vec<Vec<char>>) -> usize {
         .into_iter()
         .fold(0, |acc, symbol| acc + error_value(symbol))
 }
-```
 
-Part 2
-
-``` rust
 fn part_two(input: Vec<Vec<char>>) -> usize {
     let mut missing_values = vec![];
     for line in input {
@@ -91,4 +107,24 @@ fn part_two(input: Vec<Vec<char>>) -> usize {
 
     missing_values[missing_values.len() / 2]
 }
-```
+
+fn main() {
+    println!(
+        "Part one: {:?}",
+        part_one(lines_from_file("../input/input.txt"))
+    );
+    println!(
+        "Part two: {:?}",
+        part_two(lines_from_file("../input/input.txt"))
+    );
+}
+
+#[test]
+fn part_one_test() {
+    assert_eq!(26397, part_one(lines_from_file("../input/test-input.txt")));
+}
+
+#[test]
+fn part_two_test() {
+    assert_eq!(288957, part_two(lines_from_file("../input/test-input.txt")));
+}
