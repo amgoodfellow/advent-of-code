@@ -1,31 +1,31 @@
----
-title: Advent of Code
----
+#![allow(dead_code)]
 
-# Layout
+use std::{
+    collections::{HashMap, VecDeque},
+    convert::TryInto,
+    path::Path,
+};
 
-At the root of this project directory, there are separate folders for
-each year:
+fn lines_from_file(filename: impl AsRef<Path>) -> Vec<Vec<usize>> {
+    std::fs::read_to_string(filename)
+        .unwrap()
+        .lines()
+        .map(|c| {
+            c.chars()
+                .map(|e| e.to_digit(10).unwrap() as usize)
+                .collect()
+        })
+        .collect()
+}
 
-Inside each year, there are folders for each day following the format
-`day-xx`
+fn valid_index(row: i32, col: i32) -> bool {
+    if row < 0 || row > 9 || col < 0 || col > 9 {
+        false
+    } else {
+        true
+    }
+}
 
-Inside of each day will be a folder for the language that that day's
-puzzle was completed in, as well as a folder for puzzle inputs. Often
-the language will be Rust, but there might be different languages for
-each day. I think AoC is fun for seeing how different languages nudge
-you in different directions. Each Rust solution will be a full cargo
-project, just because I think it's more convenient than breaking things
-into workspaces.
-
-# Latest Solved Problem:
-
-## Day 11: Dumbo Octopus
-
-Both parts rely on this recursive function, which is not optimal and
-poorly named :)
-
-``` rust
 fn flashy_flash(input: &mut Vec<Vec<usize>>, flash_count: usize) -> (&Vec<Vec<usize>>, usize) {
     let mut new_flashes = 0;
     for row in 0..input.len() {
@@ -56,11 +56,15 @@ fn flashy_flash(input: &mut Vec<Vec<usize>>, flash_count: usize) -> (&Vec<Vec<us
         (input, flash_count)
     }
 }
-```
 
-Part 1
+fn increment_all(input: &mut Vec<Vec<usize>>) {
+    for row in 0..input.len() {
+        for column in 0..input[0].len() {
+            input[row][column] += 1;
+        }
+    }
+}
 
-``` rust
 fn part_one(mut input: Vec<Vec<usize>>) -> usize {
     let mut flashes = 0;
     for _ in 1..=100 {
@@ -69,12 +73,9 @@ fn part_one(mut input: Vec<Vec<usize>>) -> usize {
     }
     flashes
 }
-```
 
-Part 2
-
-``` rust
 fn part_two(mut input: Vec<Vec<usize>>) -> usize {
+    let mut flashes = 0;
     let mut step = 0;
     let mut chaos = true;
     while chaos {
@@ -88,4 +89,24 @@ fn part_two(mut input: Vec<Vec<usize>>) -> usize {
     }
     step
 }
-```
+
+fn main() {
+    println!(
+        "Part one: {:?}",
+        part_one(lines_from_file("../input/input.txt"))
+    );
+    println!(
+        "Part two: {:?}",
+        part_two(lines_from_file("../input/input.txt"))
+    );
+}
+
+#[test]
+fn part_one_test() {
+    assert_eq!(1656, part_one(lines_from_file("../input/test-input.txt")));
+}
+
+#[test]
+fn part_two_test() {
+    assert_eq!(195, part_two(lines_from_file("../input/test-input.txt")));
+}
