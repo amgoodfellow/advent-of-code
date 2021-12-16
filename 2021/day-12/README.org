@@ -1,0 +1,9 @@
+* Day 12: Passage Pathing
+
+*** Part 1
+#+begin_src rust
+#+end_src
+
+*** Part 2
+#+begin_src rust
+#+end_src

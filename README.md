@@ -20,72 +20,82 @@ into workspaces.
 
 # Latest Solved Problem:
 
-## Day 11: Dumbo Octopus
-
-Both parts rely on this recursive function, which is not optimal and
-poorly named :)
-
-``` rust
-fn flashy_flash(input: &mut Vec<Vec<usize>>, flash_count: usize) -> (&Vec<Vec<usize>>, usize) {
-    let mut new_flashes = 0;
-    for row in 0..input.len() {
-        for column in 0..input[0].len() {
-            if input[row][column] > 9 {
-                new_flashes += 1;
-                input[row][column] = 0;
-
-                // increment_adjacent
-                for i in -1i32..=1 {
-                    for j in -1i32..=1 {
-                        let current_row = row as i32 + i;
-                        let current_column = column as i32 + j;
-                        if valid_index(current_row, current_column) {
-                            let octo = input[current_row as usize][current_column as usize];
-                            if octo != 0 {
-                                input[current_row as usize][current_column as usize] += 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    if new_flashes > 0 {
-        flashy_flash(input, flash_count + new_flashes)
-    } else {
-        (input, flash_count)
-    }
-}
-```
+## Day 13: Transparent Origami
 
 Part 1
 
 ``` rust
-fn part_one(mut input: Vec<Vec<usize>>) -> usize {
-    let mut flashes = 0;
-    for _ in 1..=100 {
-        increment_all(&mut input);
-        flashes += flashy_flash(&mut input, 0).1;
-    }
-    flashes
+//I think I can keep track of folds without having to actually make the 2d array
+fn part_one(coordinates: &HashSet<(usize, usize)>, fold: Axis) -> usize {
+    let mut new_coords: HashSet<(usize, usize)> = HashSet::new();
+    match fold {
+        Axis::X(fold) => {
+            for (x, y) in coordinates {
+                // never going to be equal
+                let x = if x > &fold { fold - (x - fold) } else { *x };
+                new_coords.insert((x, *y));
+            }
+        }
+        Axis::Y(fold) => {
+            for (x, y) in coordinates {
+                // never going to be equal
+                let y = if y > &fold { fold - (y - fold) } else { *y };
+                new_coords.insert((*x, y));
+            }
+        }
+    };
+
+    new_coords.len()
 }
 ```
 
 Part 2
 
-``` rust
-fn part_two(mut input: Vec<Vec<usize>>) -> usize {
-    let mut step = 0;
-    let mut chaos = true;
-    while chaos {
-        step += 1;
-        increment_all(&mut input);
-        flashes += flashy_flash(&mut input, 0).1;
-        chaos = !input
-            .iter()
-            .map(|l| l.iter().all(|x| x == &0))
-            .all(|x| x == true);
+Part two needed a new `pretty_print` function, but other than that was
+pretty much the same as part<sub>one</sub>
+
+1.  Pretty Print
+
+    ``` rust
+    fn prett_print(set: &HashSet<(usize, usize)>) {
+        let max_x = set.iter().fold(0, |acc, (x, _)| acc.max(*x));
+        let max_y = set.iter().fold(0, |acc, (_, y)| acc.max(*y));
+
+        for y in 0..=max_y {
+            println!("");
+            for x in 0..=max_x {
+                print!("{}", if set.contains(&(x, y)) { "#" } else { "." });
+            }
+        }
+        println!("")
     }
-    step
-}
-```
+    ```
+
+2.  Part Two
+
+    ``` rust
+    fn part_two<'a>(coordinates: &'a mut HashSet<(usize, usize)>, folds: Vec<Axis>) {
+        for fold in folds {
+            let mut new_coords: HashSet<(usize, usize)> = HashSet::new();
+            match fold {
+                Axis::X(fold) => {
+                    for (x, y) in coordinates.iter() {
+                        // never going to be equal
+                        let x = if x > &fold { fold - (x - fold) } else { *x };
+                        new_coords.insert((x, *y));
+                    }
+                }
+                Axis::Y(fold) => {
+                    for (x, y) in coordinates.iter() {
+                        // never going to be equal
+                        let y = if y > &fold { fold - (y - fold) } else { *y };
+                        new_coords.insert((*x, y));
+                    }
+                }
+            };
+            *coordinates = new_coords.clone();
+        }
+
+        prett_print(coordinates);
+    }
+    ```
