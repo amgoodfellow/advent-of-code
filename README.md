@@ -1,101 +1,48 @@
----
-title: Advent of Code
----
-
 # Layout
 
 At the root of this project directory, there are separate folders for
-each year:
+each year.
 
 Inside each year, there are folders for each day following the format
 `day-xx`
 
-Inside of each day will be a folder for the language that that day's
-puzzle was completed in, as well as a folder for puzzle inputs. Often
-the language will be Rust, but there might be different languages for
-each day. I think AoC is fun for seeing how different languages nudge
-you in different directions. Each Rust solution will be a full cargo
-project, just because I think it's more convenient than breaking things
-into workspaces.
+Inside of each day will be a folder for the language the day's puzzle
+was completed in, as well as a folder for puzzle inputs. Often the
+language will be Rust, but there might be extra ones if I was feeling
+very motivated. I think AoC is fun for seeing how different languages
+nudge you in different directions. Each Rust solution will be a full
+cargo project, just because I think it's more convenient than breaking
+things into workspaces.
+
+Also! A new change starting in `2022/` will be the addition of a [Nix
+Flake](https://nixos.wiki/wiki/Flakes)
 
 # Latest Solved Problem:
 
-## Day 13: Transparent Origami
+## Day 1: Calorie Counting
 
-Part 1
+Parts 1 and 2
+
+For the first day or two, the parts probably won't need to be split up
 
 ``` rust
-//I think I can keep track of folds without having to actually make the 2d array
-fn part_one(coordinates: &HashSet<(usize, usize)>, fold: Axis) -> usize {
-    let mut new_coords: HashSet<(usize, usize)> = HashSet::new();
-    match fold {
-        Axis::X(fold) => {
-            for (x, y) in coordinates {
-                // never going to be equal
-                let x = if x > &fold { fold - (x - fold) } else { *x };
-                new_coords.insert((x, *y));
-            }
-        }
-        Axis::Y(fold) => {
-            for (x, y) in coordinates {
-                // never going to be equal
-                let y = if y > &fold { fold - (y - fold) } else { *y };
-                new_coords.insert((*x, y));
-            }
-        }
-    };
+let mut elves: Vec<usize> = vec![0];
+let mut elf_name = 0;
 
-    new_coords.len()
+for line in std::fs::read_to_string("../input/puzzle").unwrap().lines() {
+    if let Some(number) = line.parse::<usize>().ok() {
+        elves[elf_name] += number;
+    } else {
+        elf_name += 1;
+        elves.push(0)
+    }
 }
+
+elves.sort_by(|a, b| b.cmp(a));
+
+let max_elf = elves.get(0);
+let max_three_elves: usize = elves[0..3].iter().sum();
+
+println!("Part one: {:?}", max_elf);
+println!("Part two: {:?}", max_three_elves);
 ```
-
-Part 2
-
-Part two needed a new `pretty_print` function, but other than that was
-pretty much the same as part<sub>one</sub>
-
-1.  Pretty Print
-
-    ``` rust
-    fn prett_print(set: &HashSet<(usize, usize)>) {
-        let max_x = set.iter().fold(0, |acc, (x, _)| acc.max(*x));
-        let max_y = set.iter().fold(0, |acc, (_, y)| acc.max(*y));
-
-        for y in 0..=max_y {
-            println!("");
-            for x in 0..=max_x {
-                print!("{}", if set.contains(&(x, y)) { "#" } else { "." });
-            }
-        }
-        println!("")
-    }
-    ```
-
-2.  Part Two
-
-    ``` rust
-    fn part_two<'a>(coordinates: &'a mut HashSet<(usize, usize)>, folds: Vec<Axis>) {
-        for fold in folds {
-            let mut new_coords: HashSet<(usize, usize)> = HashSet::new();
-            match fold {
-                Axis::X(fold) => {
-                    for (x, y) in coordinates.iter() {
-                        // never going to be equal
-                        let x = if x > &fold { fold - (x - fold) } else { *x };
-                        new_coords.insert((x, *y));
-                    }
-                }
-                Axis::Y(fold) => {
-                    for (x, y) in coordinates.iter() {
-                        // never going to be equal
-                        let y = if y > &fold { fold - (y - fold) } else { *y };
-                        new_coords.insert((*x, y));
-                    }
-                }
-            };
-            *coordinates = new_coords.clone();
-        }
-
-        prett_print(coordinates);
-    }
-    ```

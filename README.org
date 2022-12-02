@@ -1,6 +1,6 @@
 #+Title: Advent of Code
 #+Subtitle 2022
-#+options: author:nil date:nil
+#+options: author:nil date:nil toc:nil
 
 
 * Layout
