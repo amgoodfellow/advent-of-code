@@ -1,15 +1,17 @@
 #+Title: Advent of Code
-#+Subtitle 2021
+#+Subtitle 2022
 #+options: author:nil date:nil
 
 
 * Layout
 
-At the root of this project directory, there are separate folders for each year:
+At the root of this project directory, there are separate folders for each year.
 
 Inside each year, there are folders for each day following the format ~day-xx~
 
-Inside of each day will be a folder for the language that that day's puzzle was completed in, as well as a folder for puzzle inputs. Often the language will be Rust, but there might be different languages for each day. I think AoC is fun for seeing how different languages nudge you in different directions. Each Rust solution will be a full cargo project, just because I think it's more convenient than breaking things into workspaces.
+Inside of each day will be a folder for the language the day's puzzle was completed in, as well as a folder for puzzle inputs. Often the language will be Rust, but there might be extra ones if I was feeling very motivated. I think AoC is fun for seeing how different languages nudge you in different directions. Each Rust solution will be a full cargo project, just because I think it's more convenient than breaking things into workspaces.
+
+Also! A new change starting in ~2022/~ will be the addition of a [[https://nixos.wiki/wiki/Flakes][Nix Flake]]
 
 * Latest Solved Problem:
-#+INCLUDE: "./2021/day-13/README.org"
+#+INCLUDE: "./2022/day-01/README.org"
