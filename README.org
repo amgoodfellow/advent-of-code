@@ -14,4 +14,4 @@ Inside of each day will be a folder for the language the day's puzzle was comple
 Also! A new change starting in ~2022/~ will be the addition of a [[https://nixos.wiki/wiki/Flakes][Nix Flake]]
 
 * Latest Solved Problem:
-#+INCLUDE: "./2022/day-01/README.org"
+#+INCLUDE: "./2022/day-03/README.org"
