@@ -40,6 +40,37 @@ But that actually didn't work because of puzzle inputs like ="eighttwothree"= wh
 #+begin_src clojure
 (require '[clojure.string :as str])
 
+(def word-to-num {"one" "1"
+                  "two" "2"
+                  "three" "3"
+                  "four" "4"
+                  "five" "5"
+                  "six" "6"
+                  "seven" "7"
+                  "eight" "8"
+                  "nine" "9"
+                  })
+
+(defn find-word [s]
+  (re-find #"one|two|three|four|five|six|seven|eight|nine" s)
+)
+
+(find-word "asdsivefasdfkljwersixfive")
+
+(defn wowowow [s]
+    (clojure.string/replace s
+                            (re-pattern (find-word s))
+                            (get word-to-num (find-word s)))
+  )
+
+(wowowow "afivesdsivefasdfkljwersixfive")
+
+
+(defn words-to-num [s]
+
+
+
+        )
 
 (defn first-and-last [s]
   (let [nums (filter #(Character/isDigit %) (seq s))]
