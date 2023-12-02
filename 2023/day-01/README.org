@@ -1,0 +1,57 @@
+#+title: Day 01
+
+* Part One
+#+begin_src clojure
+(require '[clojure.string :as str])
+
+(defn first-and-last [s]
+  (let [nums (filter #(Character/isDigit %) (seq s))]
+    (str (first nums) (last nums))))
+
+(->> (slurp "./input.txt")
+     (str/split-lines)
+     (map first-and-last)
+     (map #(Integer/parseInt %))
+     (apply +))
+#+end_src
+
+#+RESULTS:
+: 55488
+
+* Part Two
+
+At first I thought I could just add a dumb but easy string replace function:
+#+begin_src clojure
+(defn replace-words [s]
+  (->  s
+    (clojure.string/replace #"one" "1")
+    (clojure.string/replace #"two" "2")
+    (clojure.string/replace #"three" "3")
+    (clojure.string/replace #"four" "4")
+    (clojure.string/replace #"six" "6")
+    (clojure.string/replace #"seven" "7")
+    (clojure.string/replace #"eight" "8")
+    (clojure.string/replace #"nine" "9")
+  ))
+#+end_src
+
+But that actually didn't work because of puzzle inputs like ="eighttwothree"= where letters are shared between words
+
+#+begin_src clojure
+(require '[clojure.string :as str])
+
+
+(defn first-and-last [s]
+  (let [nums (filter #(Character/isDigit %) (seq s))]
+    (str (first nums) (last nums))))
+
+(->> (slurp "./input.txt")
+     (str/split-lines)
+     (map replace-words)
+     (map first-and-last)
+     (map #(Integer/parseInt %))
+     (apply +))
+#+end_src
+
+#+RESULTS:
+: 55054
